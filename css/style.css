@@ -1,0 +1,568 @@
+/* ========================================
+   Digitale Infotafel - Stylesheet
+   Professioneller Dark Mode mit CSS Grid
+   ======================================== */
+
+/* CSS Custom Properties für einfache Konfiguration */
+:root {
+    --bg-color: #0d1117;
+    --bg-secondary: #161b22;
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b949e;
+    --accent-color: #58a6ff;
+    --accent-hover: #79b8ff;
+    --border-color: #30363d;
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --menu-bg: rgba(22, 27, 34, 0.95);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    
+    /* Grid-Konfiguration */
+    --grid-columns: 1;
+    --grid-rows: 1;
+    --grid-gap: 2px;
+    
+    /* Übergangszeiten */
+    --transition-speed: 0.8s;
+    --transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset und Basis-Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Hauptcontainer & Grid Layout
+   ======================================== */
+
+.infotafel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    grid-template-rows: repeat(var(--grid-rows), 1fr);
+    gap: var(--grid-gap);
+    width: 100%;
+    height: 100%;
+    padding: var(--grid-gap);
+}
+
+/* Grid-Items mit Bildern */
+.grid-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform var(--transition-speed) var(--transition-easing);
+}
+
+/* ========================================
+   Übergangs-Effekte
+   ======================================== */
+
+/* Fade-Übergang */
+.grid-item.fade-transition img {
+    opacity: 0;
+    transition: opacity var(--transition-speed) var(--transition-easing);
+}
+
+.grid-item.fade-transition.active img {
+    opacity: 1;
+}
+
+/* Slide-Übergang */
+.grid-item.slide-transition img {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform var(--transition-speed) var(--transition-easing),
+                opacity var(--transition-speed) var(--transition-easing);
+}
+
+.grid-item.slide-transition.active img {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Zoom-Übergang */
+.grid-item.zoom-transition img {
+    transform: scale(1.2);
+    opacity: 0;
+    transition: transform var(--transition-speed) var(--transition-easing),
+                opacity var(--transition-speed) var(--transition-easing);
+}
+
+.grid-item.zoom-transition.active img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Bild-Container für Übergänge */
+.slide-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ========================================
+   Text-Overlay für Infotafel-Modus
+   ======================================== */
+
+.text-overlay {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 80%;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed) var(--transition-easing),
+                visibility var(--transition-speed);
+}
+
+.text-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.text-overlay .overlay-content {
+    background: var(--overlay-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 24px 32px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.text-overlay h2 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.text-overlay p {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* ========================================
+   Uhrzeit/Datum Widget
+   ======================================== */
+
+.clock-widget {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10;
+    text-align: right;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.clock-time {
+    display: block;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+}
+
+.clock-date {
+    display: block;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    color: var(--text-secondary);
+    margin-top: 4px;
+    text-transform: capitalize;
+}
+
+/* ========================================
+   Unsichtbares UI-Menü
+   ======================================== */
+
+.menu-trigger {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    z-index: 50;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.menu-trigger:hover {
+    background: radial-gradient(circle at top right, rgba(88, 166, 255, 0.1) 0%, transparent 70%);
+}
+
+.control-menu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 320px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--menu-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 100;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    transition: transform var(--transition-speed) var(--transition-easing),
+                opacity var(--transition-speed) var(--transition-easing),
+                visibility var(--transition-speed);
+}
+
+.control-menu.hidden {
+    transform: translateX(20px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.control-menu:not(.hidden) {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.menu-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.menu-section {
+    margin-bottom: 20px;
+}
+
+.menu-section label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.menu-select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.875rem;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.menu-select:hover,
+.menu-select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.menu-range {
+    width: calc(100% - 50px);
+    margin-right: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: 3px;
+    outline: none;
+}
+
+.menu-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.menu-range::-webkit-slider-thumb:hover {
+    background: var(--accent-hover);
+}
+
+.menu-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+#speed-value {
+    display: inline-block;
+    width: 35px;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+.menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.menu-btn:hover {
+    background: var(--border-color);
+    border-color: var(--accent-color);
+}
+
+.menu-btn:active {
+    transform: translateY(1px);
+}
+
+.menu-btn.primary {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.menu-btn.primary:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.menu-btn[aria-label="Menü schließen"] {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: 1.25rem;
+    line-height: 1;
+    margin: 0;
+}
+
+.menu-shortcuts {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.menu-shortcuts small {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    display: block;
+}
+
+/* ========================================
+   Lade-Indikator & Fehler
+   ======================================== */
+
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    z-index: 200;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading span {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.loading.hidden {
+    display: none;
+}
+
+.error-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(248, 81, 73, 0.1);
+    border: 1px solid rgba(248, 81, 73, 0.4);
+    border-radius: 8px;
+    padding: 24px 32px;
+    text-align: center;
+    z-index: 200;
+}
+
+.error-message p:first-child {
+    color: #f85149;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.error-message p:last-child {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 768px) {
+    :root {
+        --grid-gap: 1px;
+    }
+    
+    .clock-widget {
+        top: 12px;
+        right: 12px;
+        padding: 12px 16px;
+    }
+    
+    .text-overlay {
+        bottom: 60px;
+        max-width: 95%;
+    }
+    
+    .text-overlay .overlay-content {
+        padding: 16px 20px;
+    }
+    
+    .control-menu {
+        width: calc(100% - 40px);
+        max-height: 85vh;
+    }
+}
+
+@media (max-aspect-ratio: 1/1) {
+    /* Portrait-Modus Optimierungen */
+    .clock-widget {
+        top: auto;
+        bottom: 24px;
+        right: 24px;
+    }
+}
+
+/* Hohe Kontrastmodus für Barrierefreiheit */
+@media (prefers-contrast: high) {
+    :root {
+        --bg-color: #000000;
+        --text-primary: #ffffff;
+        --accent-color: #00ffff;
+        --border-color: #ffffff;
+    }
+}
+
+/* Bewegungsreduzierung für Barrierefreiheit */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========================================
+   Vollbildmodus Anpassungen
+   ======================================== */
+
+:fullscreen .infotafel {
+    background-color: var(--bg-color);
+}
+
+:-webkit-full-screen .infotafel {
+    background-color: var(--bg-color);
+}
+
+:-moz-full-screen .infotafel {
+    background-color: var(--bg-color);
+}

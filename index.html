@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professionelle digitale Infotafel für Display-Screens">
+    <title>Digitale Infotafel</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Hauptcontainer für das Bilder-Grid -->
+    <main id="infotafel" class="infotafel" role="main" aria-label="Digitale Infotafel">
+        <div id="grid-container" class="grid-container">
+            <!-- Grid-Items werden dynamisch via JS erzeugt -->
+        </div>
+    </main>
+
+    <!-- Text-Overlay für Infotafel-Modus -->
+    <div id="text-overlay" class="text-overlay" aria-live="polite">
+        <div class="overlay-content">
+            <h2 id="overlay-title"></h2>
+            <p id="overlay-text"></p>
+        </div>
+    </div>
+
+    <!-- Uhrzeit/Datum-Anzeige -->
+    <aside id="clock-widget" class="clock-widget" aria-label="Uhrzeit und Datum">
+        <time id="clock-time" class="clock-time" datetime=""></time>
+        <time id="clock-date" class="clock-date" datetime=""></time>
+    </aside>
+
+    <!-- Unsichtbares UI-Menü (erscheint bei Interaktion) -->
+    <nav id="control-menu" class="control-menu hidden" aria-label="Steuerungsmenü">
+        <div class="menu-header">
+            <h3>Infotafel Steuerung</h3>
+            <button id="close-menu" class="menu-btn" aria-label="Menü schließen">×</button>
+        </div>
+        
+        <div class="menu-section">
+            <label for="transition-type">Übergang:</label>
+            <select id="transition-type" class="menu-select">
+                <option value="fade">Fade</option>
+                <option value="slide">Slide</option>
+                <option value="zoom">Zoom</option>
+            </select>
+        </div>
+
+        <div class="menu-section">
+            <label for="slide-speed">Geschwindigkeit (Sekunden):</label>
+            <input type="range" id="slide-speed" class="menu-range" min="3" max="30" value="5" step="1">
+            <span id="speed-value">5s</span>
+        </div>
+
+        <div class="menu-section">
+            <label for="grid-layout">Grid-Layout:</label>
+            <select id="grid-layout" class="menu-select">
+                <option value="1">1×1 (Einzelbild)</option>
+                <option value="2">2×2 (Vier Bilder)</option>
+                <option value="3">3×3 (Neun Bilder)</option>
+            </select>
+        </div>
+
+        <div class="menu-section">
+            <button id="toggle-play" class="menu-btn primary">⏸ Pause</button>
+            <button id="next-slide" class="menu-btn">→ Weiter</button>
+            <button id="prev-slide" class="menu-btn">← Zurück</button>
+        </div>
+
+        <div class="menu-section">
+            <button id="toggle-fullscreen" class="menu-btn">⛶ Vollbild</button>
+        </div>
+
+        <div class="menu-shortcuts">
+            <small>Tastenkürzel: Leertaste = Pause | Pfeiltasten = Navigation | F = Vollbild | ESC = Menü</small>
+        </div>
+    </nav>
+
+    <!-- Aktivierungszone für das Menü -->
+    <div id="menu-trigger" class="menu-trigger" aria-hidden="true" title="Klicken zum Öffnen des Menüs"></div>
+
+    <!-- Lade-Indikator -->
+    <div id="loading" class="loading" role="status" aria-live="polite">
+        <div class="loading-spinner"></div>
+        <span>Infotafel wird geladen...</span>
+    </div>
+
+    <!-- Fehleranzeige -->
+    <div id="error-message" class="error-message" role="alert" aria-live="assertive" hidden>
+        <p>⚠️ Fehler beim Laden der Konfiguration</p>
+        <p id="error-details"></p>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

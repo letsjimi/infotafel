@@ -1,0 +1,67 @@
+{
+  "_comment": "Digitale Infotafel - Konfigurationsdatei",
+  
+  "images": [
+    {
+      "src": "assets/image1.jpg",
+      "text": {
+        "title": "Willkommen",
+        "text": "Hier können Sie wichtige Informationen anzeigen"
+      }
+    },
+    {
+      "src": "assets/image2.jpg",
+      "text": {
+        "title": "Aktuelles",
+        "text": "Neuigkeiten und Informationen für Besucher"
+      }
+    },
+    {
+      "src": "assets/image3.jpg",
+      "text": {
+        "title": "Öffnungszeiten",
+        "text": "Montag - Freitag: 9:00 - 18:00 Uhr"
+      }
+    },
+    {
+      "src": "assets/image4.jpg",
+      "text": {
+        "title": "Kontakt",
+        "text": "info@beispiel.de | Tel: 0123 / 456789"
+      }
+    },
+    {
+      "src": "assets/image5.jpg",
+      "text": {
+        "title": "Angebot",
+        "text": "Entdecken Sie unsere aktuellen Angebote"
+      }
+    },
+    {
+      "src": "assets/image6.jpg",
+      "text": {
+        "title": "Impressionen",
+        "text": "Einblicke in unsere Einrichtung"
+      }
+    }
+  ],
+  
+  "transition": "fade",
+  "_transitionOptions": "fade | slide | zoom",
+  
+  "speed": 5,
+  "_speedInfo": "Wechselgeschwindigkeit in Sekunden (3-30)",
+  
+  "gridLayout": 1,
+  "_gridLayoutOptions": "1 (1x1) | 2 (2x2) | 3 (3x3)",
+  
+  "showClock": true,
+  "showTextOverlay": true,
+  
+  "defaultTexts": [
+    {
+      "title": "Willkommen",
+      "text": "Digitale Infotafel"
+    }
+  ]
+}
